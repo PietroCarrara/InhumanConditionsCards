@@ -2,7 +2,7 @@
 \usepackage{tikz}
 \usepackage{tikz-qtree}
 
-\usetikzlibrary{positioning}
+\usetikzlibrary{arrows, positioning}
 
 \pgfmathsetmacro{\cardroundingradius}{15}
 
@@ -14,9 +14,27 @@
 \pgfmathsetmacro{\cardwidthusable}{\cardwidth-\cardexternalmargin}  % Card width in inches
 \pgfmathsetmacro{\cardheightusable}{\cardheight-\cardexternalmargin} % Card height in inches
 
-
 \pgfmathsetmacro{\suspectrolewidth}{\cardwidth/2.5}  % Suspect role icon width
 \pgfmathsetmacro{\suspectroleheight}{\cardwidth/2.5} % Same formula as width, to keep 1:1 aspect ratio
+
+\tikzset{
+    %Define standard arrow tip
+    >=stealth',
+    %Define style for boxes
+    punkt/.style={
+           rectangle,
+           rounded corners,
+           draw=black, very thick,
+           text width=6.5em,
+           minimum height=2em,
+           text centered},
+    % Define arrow style
+    pil/.style={
+           ->,
+           thick,
+           shorten <=2pt,
+           shorten >=2pt,}
+}
 
 \newcommand{\suspectrole}[1]{
     \node[anchor=north] (suspectrole) at (\cardwidth*.5 in, \cardheight in -\cardexternalmargin in) {
@@ -34,13 +52,40 @@
 }
 
 \newcommand{\cardtitle}[1]{
-    % \node[below=of suspectrole.south,scale=2] (cardtitle) {\MakeUppercase{#1}};
-    \node[anchor=north,scale=2] (cardtitle) at (suspectrole.south) {\MakeUppercase{#1}};
+    \node[anchor=north] (cardtitle) at (suspectrole.south) {
+        \Large \MakeUppercase{#1}
+    };
 }
 
 \newcommand{\cardmaze}[1]{
     \node[below=of cardtitle.center]{
         \includegraphics[width=\cardwidthusable in,height=\cardheightusable in,keepaspectratio]{img/mazes/#1}
+    };
+}
+
+\newcommand{\cardmazesol}[6]{
+    \node[below=0.5cm of cardtitle.center] (mazesol) {};
+
+    \node[anchor=south] (a) at (\cardwidthusable*0.16 in-\cardexternalmargin in, 0.5*\cardheight in) {#1};
+    \node[right=0.2 in of a] (b) {#2}
+    edge[pil,<-] (a.east);
+    \node[right=0.2 in of b] (c) {#3}
+    edge[pil,<-] (b.east);
+    \node[right=0.2 in of c] (d) {#4}
+    edge[pil,<-] (c.east);
+    \node[right=0.2 in of d] (e) {#5}
+    edge[pil,<-] (d.east);
+    \node[right=0.2 in of e] (f) {#6}
+    edge[pil,<-] (e.east)
+    edge[pil,bend left=25] (a.south east);
+}
+
+\newcommand{\cardmaintext}[1]{
+    % \node[below=1.2cm of mazesol.south east,text width=\cardwidthusable in-\cardexternalmargin in,align=left]  {
+    %     \MakeUppercase{#1}
+    % };
+    \node[anchor=north west,text width=\cardwidthusable in-\cardexternalmargin in,align=left] at (\cardexternalmargin in, \cardheightusable*0.4 in) {
+        \MakeUppercase{#1}
     };
 }
 

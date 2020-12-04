@@ -1,8 +1,99 @@
+\def\itemmarker{$\bullet$~}
+
+\newcommand{\readable}[1]{\fontspec{OldNewspaperTypes.ttf}#1}
+\newcommand{\muchotexto}[1]{\readable{\footnotesize #1}}
+
 \def\humanrolecard{
     \begin{card}
         \suspectrole{human}
         \suspecttext{you\\are\\a\\human}
         \cardtitle{human}
         \cardmaze{hopesanddreams}
+    \end{card}
+}
+
+\def\patienthopesanddreamsA{
+    \begin{card}
+        \suspectrole{patient}
+        \suspecttext{you\\are\\a\\robot}
+        \cardtitle{patient}
+        \cardmazesol{B}{D}{F}{A}{C}{E}
+        \cardmaintext{\readable{
+            you may not mention any change
+            to yourself or your behavior.
+        }}
+    \end{card}
+}
+
+\def\patienthopesanddreamsB{
+    \begin{card}
+        \suspectrole{patient}
+        \suspecttext{you\\are\\a\\robot}
+        \cardtitle{patient}
+        \cardmazesol{B}{D}{F}{A}{C}{E}
+        \cardmaintext{\readable{
+            you may only mention effects that
+            would be experienced by you personally.\\
+            your hopes are not for other people.
+        }}
+    \end{card}
+}
+
+\def\patienthopesanddreamsC{
+    \begin{card}
+        \suspectrole{patient}
+        \suspecttext{you\\are\\a\\robot}
+        \cardtitle{patient}
+        \cardmazesol{B}{D}{F}{A}{C}{E}
+        \cardmaintext{\readable{
+            you may only mention outcomes that
+            are entirely the result of your own
+            actions.
+        }}
+    \end{card}
+}
+
+\def\violenthopesanddreamsA{
+    \begin{card}
+        \suspectrole{violent}
+        \suspecttext{you\\are\\a\\robot}
+        \cardtitle{violent}
+        \cardmazesol{B}{D}{F}{A}{C}{E}
+        \cardmaintext{\muchotexto{
+            \itemmarker In 3 scenarios, mention a reason
+            why a hope will not be fulfilled.\\
+            \itemmarker In 3 scenarios, mention how having a specific
+            hope negatively impacts someone.\\
+            \itemmarker Perform the penalty twice.\\
+        }}
+    \end{card}
+}
+
+\def\violenthopesanddreamsB{
+    \begin{card}
+        \suspectrole{violent}
+        \suspecttext{you\\are\\a\\robot}
+        \cardtitle{violent}
+        \cardmazesol{B}{D}{F}{A}{C}{E}
+        \cardmaintext{\muchotexto{
+            \itemmarker In 3 scenarios, state the likelihood of a hope being fulfilled.\\
+            \itemmarker 4 times, mention a specific number greater than 20.\\
+            \itemmarker Perform the penalty twice.\\
+        }}
+    \end{card}
+}
+
+\def\violenthopesanddreamsC{
+    \begin{card}
+        \suspectrole{violent}
+        \suspecttext{you\\are\\a\\robot}
+        \cardtitle{violent}
+        \cardmazesol{B}{D}{F}{A}{C}{E}
+        \cardmaintext{\muchotexto{
+            \itemmarker 3 times, mention an effect that could not be accomplished by humans and animals alone.\\
+            \itemmarker In 3 scenarios, mention how having a specific
+            hope negatively impacts someone.\\
+            \itemmarker Perform the penalty twice.\\
+        }}
     \end{card}
 }
