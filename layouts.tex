@@ -1,0 +1,49 @@
+\usepackage{graphics}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+
+\usetikzlibrary{positioning}
+
+\pgfmathsetmacro{\cardroundingradius}{15}
+
+\pgfmathsetmacro{\cardwidth}{2.5}  % Card width in inches
+\pgfmathsetmacro{\cardheight}{3.5} % Card height in inches
+
+\pgfmathsetmacro{\cardexternalmargin}{0.1} % Margin to keep against the border
+
+\pgfmathsetmacro{\cardwidthusable}{\cardwidth-\cardexternalmargin}  % Card width in inches
+\pgfmathsetmacro{\cardheightusable}{\cardheight-\cardexternalmargin} % Card height in inches
+
+
+\pgfmathsetmacro{\suspectrolewidth}{\cardwidth/2.5}  % Suspect role icon width
+\pgfmathsetmacro{\suspectroleheight}{\cardwidth/2.5} % Same formula as width, to keep 1:1 aspect ratio
+
+\newcommand{\suspectrole}[1]{
+    \node[anchor=north] (suspectrole) at (\cardwidth*.5 in, \cardheight in -\cardexternalmargin in) {
+        \includegraphics[width=\suspectrolewidth in,height=\suspectroleheight in]{img/#1}
+    };
+}
+
+\newcommand{\suspecttext}[1]{
+    \node[anchor=south west,text width=\cardwidth*.25 in] at (\cardexternalmargin in, \cardheight in -\cardexternalmargin in-\suspectroleheight in) {
+        \MakeUppercase{#1}
+    };
+    \node[xscale=-1,anchor=south west,text width=\cardwidth*.25 in] at (\cardwidth in - \cardexternalmargin in, \cardheight in -\cardexternalmargin in-\suspectroleheight in) {
+        \MakeUppercase{#1}
+    };
+}
+
+\newcommand{\cardtitle}[1]{
+    % \node[below=of suspectrole.south,scale=2] (cardtitle) {\MakeUppercase{#1}};
+    \node[anchor=north,scale=2] (cardtitle) at (suspectrole.south) {\MakeUppercase{#1}};
+}
+
+\newcommand{\cardmaze}[1]{
+    \node[below=of cardtitle.center]{
+        \includegraphics[width=\cardwidthusable in,height=\cardheightusable in,keepaspectratio]{img/mazes/#1}
+    };
+}
+
+\newenvironment{card}
+{\begin{tikzpicture}\draw[rounded corners=\cardroundingradius] (0,0) rectangle (\cardwidth in, \cardheight in);}
+{\end{tikzpicture}}
