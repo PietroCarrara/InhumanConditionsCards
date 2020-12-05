@@ -2,7 +2,7 @@
 \usepackage{tikz}
 \usepackage{tikz-qtree}
 
-\usetikzlibrary{arrows, positioning}
+\usetikzlibrary{arrows.meta, arrows, positioning}
 
 \pgfmathsetmacro{\cardroundingradius}{15}
 
@@ -11,29 +11,19 @@
 
 \pgfmathsetmacro{\cardexternalmargin}{0.1} % Margin to keep against the border
 
-\pgfmathsetmacro{\cardwidthusable}{\cardwidth-\cardexternalmargin}  % Card width in inches
-\pgfmathsetmacro{\cardheightusable}{\cardheight-\cardexternalmargin} % Card height in inches
+\pgfmathsetmacro{\cardwidthusable}{\cardwidth-2*\cardexternalmargin}  % Card width in inches
+\pgfmathsetmacro{\cardheightusable}{\cardheight-2*\cardexternalmargin} % Card height in inches
 
 \pgfmathsetmacro{\suspectrolewidth}{\cardwidth/2.5}  % Suspect role icon width
-\pgfmathsetmacro{\suspectroleheight}{\cardwidth/2.5} % Same formula as width, to keep 1:1 aspect ratio
+\pgfmathsetmacro{\suspectroleheight}{\suspectrolewidth} % Same formula as width, to keep 1:1 aspect ratio
 
 \tikzset{
-    %Define standard arrow tip
-    >=stealth',
-    %Define style for boxes
-    punkt/.style={
-           rectangle,
-           rounded corners,
-           draw=black, very thick,
-           text width=6.5em,
-           minimum height=2em,
-           text centered},
-    % Define arrow style
-    pil/.style={
-           ->,
-           thick,
-           shorten <=2pt,
-           shorten >=2pt,}
+    mazearrow/.style={
+        arrows={-Triangle[length=1.3mm,width=1.3mm]},
+        dotted,
+        line width=1pt,
+        preaction={thin},
+    },
 }
 
 \newcommand{\suspectrole}[1]{
@@ -64,27 +54,25 @@
 }
 
 \newcommand{\cardmazesol}[6]{
-    \node[below=0.5cm of cardtitle.center] (mazesol) {};
+    \coordinate[below=0.5cm of cardtitle.center] (mazesol);
 
-    \node[anchor=south] (a) at (\cardwidthusable*0.16 in-\cardexternalmargin in, 0.5*\cardheight in) {#1};
-    \node[right=0.2 in of a] (b) {#2}
-    edge[pil,<-] (a.east);
-    \node[right=0.2 in of b] (c) {#3}
-    edge[pil,<-] (b.east);
-    \node[right=0.2 in of c] (d) {#4}
-    edge[pil,<-] (c.east);
-    \node[right=0.2 in of d] (e) {#5}
-    edge[pil,<-] (d.east);
-    \node[right=0.2 in of e] (f) {#6}
-    edge[pil,<-] (e.east)
-    edge[pil,bend left=25] (a.south east);
+    \node[anchor=west] (a) at (\cardexternalmargin in, 0.5*\cardheight in) {#1};
+    \node (b) at (\cardexternalmargin in + 0.2 * \cardwidthusable in, 0.5*\cardheight in) {#2};
+    \node (c) at (\cardexternalmargin in + 0.4 * \cardwidthusable in, 0.5*\cardheight in) {#3};
+    \node (d) at (\cardexternalmargin in + 0.6 * \cardwidthusable in, 0.5*\cardheight in) {#4};
+    \node (e) at (\cardexternalmargin in + 0.8 * \cardwidthusable in, 0.5*\cardheight in) {#5};
+    \node[anchor=east] (f) at (\cardexternalmargin in + \cardwidthusable in, 0.5*\cardheight in) {#6};
+
+    \draw[mazearrow] (a.east) to (b.west);
+    \draw[mazearrow] (b.east) to (c.west);
+    \draw[mazearrow] (c.east) to (d.west);
+    \draw[mazearrow] (d.east) to (e.west);
+    \draw[mazearrow] (e.east) to (f.west);
+    \draw[mazearrow, bend right=15] (f.north west) to (a.north east);
 }
 
 \newcommand{\cardmaintext}[1]{
-    % \node[below=1.2cm of mazesol.south east,text width=\cardwidthusable in-\cardexternalmargin in,align=left]  {
-    %     \MakeUppercase{#1}
-    % };
-    \node[anchor=north west,text width=\cardwidthusable in-\cardexternalmargin in,align=left] at (\cardexternalmargin in, \cardheightusable*0.4 in) {
+    \node[anchor=north west,text width=\cardwidthusable in,align=left] at (\cardexternalmargin in, \cardheightusable*0.5 in) {
         \MakeUppercase{#1}
     };
 }
